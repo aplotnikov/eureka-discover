@@ -4,11 +4,11 @@ import com.home.eureka.discover.ExcludedFromScan;
 import com.home.eureka.discover.OrderResponse;
 import feign.RetryableException;
 import feign.codec.ErrorDecoder;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.cloud.netflix.feign.FeignClientsConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
 @ExcludedFromScan
 public class PaymentServiceConfiguration extends FeignClientsConfiguration {
     @Bean
@@ -20,7 +20,7 @@ public class PaymentServiceConfiguration extends FeignClientsConfiguration {
     public ErrorDecoder errorDecoder() {
         return (methodKey, response) -> {
             if (response.status() == 503) {
-                return new RetryableException("retry", null);
+                throw  new RetryableException("retry", null);
             }
 
             return new ErrorDecoder.Default().decode(methodKey, response);
