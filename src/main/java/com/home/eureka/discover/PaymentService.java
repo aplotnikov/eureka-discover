@@ -1,5 +1,6 @@
 package com.home.eureka.discover;
 
+import com.home.eureka.discover.retryier.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,8 +16,8 @@ public class PaymentService {
     private OrderService orderService;
 
     @RequestMapping(value = "/payment", method = POST, produces = "application/json")
-    public ResponseEntity<OrderId> payForMovie(@RequestBody OrderId orderId) {
-        OrderId result = orderService.orderMovie(orderId);
+    public ResponseEntity<OrderResponse> payForMovie(@RequestBody OrderResponse orderResponse) {
+        OrderResponse result = orderService.orderMovie(orderResponse);
 
         return new ResponseEntity<>(result, CREATED);
     }
